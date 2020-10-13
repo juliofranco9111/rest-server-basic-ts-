@@ -39,7 +39,7 @@ router.post('/mensajes/:id', ( req:Request, res:Response)=>{
 
     const id = req.params.id;
 
-    console.log(id);
+    // console.log(id);
 
     res.json({
         ok: true,
