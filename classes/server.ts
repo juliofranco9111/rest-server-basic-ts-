@@ -8,6 +8,7 @@ import * as socket from './../sockets/socket';
 
 
 
+
 export default class Server {
 
     private static _instance: Server;
@@ -44,19 +45,30 @@ export default class Server {
 
     private escucharSockets(){
 
-        console.log('Escuchando conexiones - sockets');
+        // console.log('Escuchando conexiones - sockets');
 
         // Escuchar cuando un "cliente" se conecta
         this.io.on('connection', cliente => {
-            console.log('Cliente conectado');
+            // console.log('Cliente conectado');
+            // console.log(cliente.id);
 
-            // Métodos del Socket services
+            //----Conectar cliente---
+            socket.conectarCliente(cliente);
+
+            //Escuchar nombre - configurar Usuario
+            socket.nombreUsuario(cliente,this.io);
+
+
+
+            // ****Métodos del Socket services****
             
             // Desconectar 
             socket.desconectar(cliente);
 
             // Escuchar mensaje 
             socket.mensaje(cliente,this.io);
+
+            
         })
 
         
