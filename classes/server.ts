@@ -53,20 +53,21 @@ export default class Server {
             // console.log(cliente.id);
 
             //----Conectar cliente---
-            socket.conectarCliente(cliente);
+            socket.conectarCliente(cliente, this.io);
 
             //Escuchar nombre - configurar Usuario
-            socket.nombreUsuario(cliente,this.io);
+            socket.nombreUsuario(cliente, this.io);
 
-
+            // Obtener usuarios activos
+            socket.obtenerUsuarios(cliente,this.io);
 
             // ****Métodos del Socket services****
             
-            // Desconectar 
-            socket.desconectar(cliente);
-
             // Escuchar mensaje 
             socket.mensaje(cliente,this.io);
+            
+            // Desconectar 
+            socket.desconectar(cliente,this.io);
 
             
         })
@@ -78,6 +79,6 @@ export default class Server {
     start( callback: Function ){
         // como se importó el http entonces ya no iniciamos el app 
         // sino el httpServer
-        this.httpServer.listen (this.port, callback());
+        this.httpServer.listen (this.port, callback() );
     }
 }

@@ -1,3 +1,6 @@
+import { usuariosConectados } from './../sockets/socket';
+
+
 //1.Importar desde express
 import { Router, Request, Response } from "express";
 import Server from '../classes/server';
@@ -27,6 +30,7 @@ router.post('/mensajes', ( req:Request, res:Response)=>{
     const server = Server.instance;
     server.io.emit('mensaje-nuevo', payload);
     
+     
 
     res.json({
         ok: true,
@@ -67,6 +71,36 @@ router.post('/mensajes/:id', ( req:Request, res:Response)=>{
         id
     });
 });
+
+// Servicio para obtener los Ids de los usuarios
+router.get('/usuarios',(req: Request,res: Response) => {
+    const server = Server.instance;
+
+    server.io.clients((err: any, clientes: string[]) => {
+        if(err){
+            return res.json({
+                ok: false,
+                err
+            })
+        }
+
+        res.json({
+            ok: true,
+            clientes
+        })
+    })
+
+});
+
+// Obtener usuarios y sus nombres
+router.get('/usuarios/detalle',(req: Request,res: Response) => {
+
+    res.json({
+        ok: true,
+        clientes: usuariosConectados.getLista()
+        
+    })
+})
 
 export default router;
 
